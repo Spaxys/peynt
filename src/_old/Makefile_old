@@ -1,0 +1,31 @@
+#compiles a gl + glfw application
+
+#my header dir
+HDIR = ../include
+CXX=g++
+CXXFLAGS=-I$(IDIR) -std=c++11
+
+ODIR=obj
+LDIR =/usr/local/lib
+IDIR =/usr/include
+
+
+LDLIBS= -lglfw -lGL
+
+_DEPS = 
+DEPS = $(patsubst %,$(IDIR)/%,$(_DEPS))
+
+_OBJ = main.o 
+OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))
+
+
+$(ODIR)/%.o: %.cpp $(DEPS)
+	$(CXX) -o $@ $< $(CXXFLAGS)
+
+hellomake: $(OBJ)
+	g++ $(LDIR) -o $@ $^ $(CXXFLAGS) $(LDLIBS)
+
+.PHONY: clean
+
+clean:
+	rm -f $(ODIR)/*.o *~ core $(HDIR)/*~ 
